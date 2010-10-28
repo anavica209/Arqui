@@ -1,0 +1,7 @@
+bochs
+img
+bin
+./.gitignore
+./arma
+./bochsrc.txt
+
