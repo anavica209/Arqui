@@ -4,4 +4,4 @@ bin
 ./.gitignore
 ./arma
 ./bochsrc.txt
-
+log.bochs
