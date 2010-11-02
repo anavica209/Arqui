@@ -2,9 +2,10 @@ GLOBAL _int_09_hand
 EXTERN _keyboard_interpreter
 
 _int_09_hand:
-    push    ebp
-    mov     ebp, esp
-    push    ax
+    push    ds
+    push    es
+    pusha
+
     xor     ax,ax
 
   read:
@@ -32,7 +33,8 @@ _int_09_hand:
     out     20h, al     ; acknowledge to PIC
 
     ; Restore register AX and stack frame
-    pop     ax
-    pop     ebp
-    ret
+    popa  
+    pop     es
+    pop     ds
+    iret
 
