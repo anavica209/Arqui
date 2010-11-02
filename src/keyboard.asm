@@ -6,7 +6,7 @@ _int_09_hand:
     push    es
     pusha
 
-    xor     ax,ax
+    xor     eax,eax
 
   read:
     in      al, 60h     ; Read from PIC

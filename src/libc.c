@@ -13,11 +13,19 @@ void k_clear_screen()
 	unsigned int i=0;
 	while(i < (80*25*2))
 	{
-		vidmem[i]='7';
+		vidmem[i]=' ';
 		i++;
 		vidmem[i]=WHITE_TXT;
 		i++;
 	};
+//        __asm__ volatile(
+//            "int $0x10"
+//            : "=a" (i)
+//            : "a" (0x0200),
+//              "b" (0x0000),
+//              "d" (0x0000)
+//            : "memory", "cc"
+//        );
 }
 
 /***************************************************************
@@ -40,12 +48,12 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
   item->cero = cero;
 }
 
-int tickpos=640;
+int tickpos=0;
 
 void write(int fileDescriptor, char* buffer, int size){
     char *video = (char *) 0xb8000;
     while(size){
-        video[tickpos+=2]=*buffer;
+        video[tickpos+=2] = buffer[0];
         buffer++;
         size--;
     }

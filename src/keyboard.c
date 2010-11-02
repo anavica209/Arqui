@@ -24,7 +24,7 @@ void _keyboard_interpreter(int data)
     char escape  = (data & 0xFF00) >> 8;
 
     if (keycode & 0x80) { // Key make
-        char translation = decode(keycode, escape);
+        char translation = decode(keycode^0x80, escape);
         write(0, &translation, 1);
         _LAST_PRESSED = translation;
         _TICKED = false;

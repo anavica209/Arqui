@@ -7,7 +7,7 @@ IDTR idtr;				/* IDTR */
 
 /**********************************************
 kmain() 
-Punto de entrada de cóo C.
+Punto de entrada de código C.
 *************************************************/
 
 kmain() 
@@ -33,14 +33,16 @@ kmain()
 	
 	_lidt (&idtr);	
 
+/* Habilitar interrupciones */
+
 	_Cli();
 
-/* Habilito interrupcion de timer tick */
-/* Habilito interrupcion de teclado */
         _mascaraPIC1(0xFC); 
         _mascaraPIC2(0xFF);
         
 	_Sti();
+
+/* Bucle principal */
 
         while(1)
         {
