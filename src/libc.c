@@ -39,3 +39,19 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
   item->access = access;
   item->cero = cero;
 }
+
+int tickpos=640;
+
+void write(int fileDescriptor, char* buffer, int size){
+    char *video = (char *) 0xb8000;
+    while(size){
+        video[tickpos+=2]=*buffer;
+        buffer++;
+        size--;
+    }
+};
+
+void read(int fileDescriptor, char* buffer, int size){
+
+};
+
