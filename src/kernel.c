@@ -2,7 +2,7 @@
 #include "../include/defs.h"
 #include "../include/libc.h"
 
-DESCR_INT idt[0xA];			/* IDT de 10 entradas*/
+DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 
 /* __write
@@ -13,13 +13,6 @@ IDTR idtr;				/* IDTR */
 * - Cantidad
 *
 **/
-#define INVALID 0
-#define STDIN	0
-#define STDOUT	1
-#define MAX_BUFFER 100
-
-#define MAXCOL 80
-#define MAXFIL 25
 
 int writeAux(int fd, const void* buffer, size_t count){
   int i=0;
@@ -34,10 +27,12 @@ int writeAux(int fd, const void* buffer, size_t count){
 size_t write(int fd, const void* buffer, size_t count){
   int i=0;
   switch(fd){
-    case STDIN:		i=writeAux(fd, buffer, count);
-			break;
-    case STDOUT:	i=writeAux(fd, buffer, count);
-			break;
+    case STDIN:
+    case STDOUT:
+        i = writeAux(fd, buffer, count);
+	break;
+    default:
+        break;
   }
   return i;
 }
@@ -72,8 +67,7 @@ size_t read(int fd, void* buffer, size_t count){
 
 
 
-char *
-inicialize(char * aux){
+char * inicialize(char * aux){
   int j;
   for(j=0 ; j<MAXCOL ; j++)
     aux[j]=' ';
@@ -124,6 +118,7 @@ kmain()
 
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
         setup_IDT_entry (&idt[0x09], 0x09, (dword)&_int_09_hand, ACS_INT, 0);
+        setup_IDT_entry (&idt[0x80], 0x80, (dword)&_int_80_hand, ACS_INT, 0);
 	
 /* Carga de IDTR    */
 
