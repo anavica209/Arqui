@@ -1,4 +1,5 @@
-#include "../include/kc.h"
+#include "../include/libc.h"
+#include "../include/syscalls.h"
 
 
 /***********************
