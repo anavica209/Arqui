@@ -2,6 +2,8 @@ GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
+GLOBAL  _write_character
+GLOBAL  _read_character
 
 EXTERN  int_08
 
@@ -81,3 +83,72 @@ vuelve:	mov     ax, 1
 	pop	ax
 	pop     bp
         retn
+
+
+_write_character:
+;	mov eax,4		Servicio 4: escritura (write). Los parámetros necesarios son:
+;//	mov bx,1		   EBX: unidad de salida (1: salida estándar)
+;//	mov ecx,oración		   ECX: Puntero a un área de memoria donde se encuentran los caracteres a mostrar.
+;//	mov edx,100		   EDX: Número máximo de caracteres a mostrar. 
+	push	ebp
+	mov	ebp, esp
+;	//servicio
+	push eax
+	mov eax,4
+;se pone en la pila el primer elemento fd 
+	
+	push 	ebx
+	mov	ebx,[ss: ebp + 6]	;//dejo en algun registro el valor del file descriptor
+;//se agrega a la pila direccion de buffer y se desreferencia como un char
+	push 	ecx
+        mov     ecx, [ss: ebp + 6] ; ds:bx = puntero a buffer 
+	rol	ecx,16		    	
+	lidt    [ds: ecx]          ; carga primer char
+	
+;//valor del count
+	push 	edx
+	mov	edx,[ss: ebp + 6]	;//dejo en algun registro la cantidad a copiar	
+ 
+	int 80h
+	pop	edx
+	pop	ecx		;libera la pila
+	pop	ebx
+	pop     eax
+	pop     ebp
+	retn
+
+
+_read_character:
+;//mov eax,3	Servicio 3: lectura (read). Los parámetros necesarios son:
+;//mov bx,0	    EBX: unidad de entrada (0: entrada estándar).
+;//mov ecx,oración	    ECX: Puntero a un área de memoria donde se dejarán los caracteres obtenidos.
+;//mov edx,100 	    EDX: Número máximo de caracteres a leer.
+	push	ebp
+	mov	ebp, esp
+;	//servicio
+	push eax
+	mov eax,3
+;se pone en la pila el primer elemento fd 
+	
+	push 	ebx
+	mov	ebx,[ss: ebp + 6]	;//dejo en algun registro el valor del file descriptor
+;//se agrega a la pila direccion de buffer y se desreferencia como un char
+	push 	ecx
+        mov     ecx, [ss: ebp + 6] ; ds:bx = puntero a buffer 
+	rol	ecx,16		    	
+	lidt    [ds: ecx]          ; carga primer char
+	
+;//valor del count
+	push 	edx
+	mov	edx,[ss: ebp + 6]	;	//dejo en algun registro la cantidad a copiar	
+ 
+	int 80h
+	pop	edx
+	pop	ecx		;libera la pila
+	pop	ebx
+	pop     eax
+	pop     ebp
+	retn
+
+
+
