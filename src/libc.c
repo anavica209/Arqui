@@ -48,12 +48,60 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
   item->cero = cero;
 }
 
+/***********************
+ * Printf
+ **********************/
+void printf(char* string, ...){
+    va_start();
+
+    while (*string != 0){
+        if (*string != '\'){
+            putc(*string);
+            string++;
+        } else {
+            char option;
+            for (i = 0; string[i]!=0 && string[i]<'z' && string[i]>'a'; i++);
+            switch (string[i]) {
+                case 's':
+                    break;
+                case 'd':
+                case 'i':
+                    break;
+                case 'o':
+                    break;
+                case 'h':
+                    break;
+                case 'x':
+                    break;
+                case 'X':
+                    break;
+                case 'n':
+                    break;
+                case '%':
+                    break;
+                case 0:
+                    break;
+            }
+        }
+    }
+}
+
+
+/***
+    Temporary write and read
+***/
 int tickpos=0;
 
 void write(int fileDescriptor, char* buffer, int size){
     char *video = (char *) 0xb8000;
     while(size){
-        video[tickpos+=2] = buffer[0];
+        video[tickpos] = buffer[0];
+        __asm volatile(
+            "out %1 %0"
+            : 
+            : 
+        );
+        tickpos += 2;
         buffer++;
         size--;
     }
