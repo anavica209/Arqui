@@ -53,7 +53,16 @@ typedef struct {
   dword base;
 } IDTR;
 
-     
+typedef int size_t;
+typedef short int ssize_t;
+
+#define INVALID -1
+#define STDIN	0
+#define STDOUT	1
+#define MAX_BUFFER 100
+
+#define MAXCOL 80
+#define MAXFIL 25
 
 #endif
 

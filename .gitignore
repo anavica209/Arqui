@@ -1,7 +1,7 @@
 bochs
 img
 bin
-./.gitignore
-./arma
+.gitignore
+arma
 ./bochsrc.txt
 log.bochs

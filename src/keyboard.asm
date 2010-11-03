@@ -32,7 +32,7 @@ _int_09_hand:
     mov     al, 20h
     out     20h, al     ; acknowledge to PIC
 
-    ; Restore register AX and stack frame
+    ; Restore registers
     popa  
     pop     es
     pop     ds

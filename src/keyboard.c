@@ -1,10 +1,10 @@
 #include "../include/libc.h"
 #include "../include/keyboard.h"
 
-char _LAST_PRESSED = 0;
-int _TICKED = 0;
-int _SHIFT = 0;
-int  _LANGUAGE = 0;
+static char _LAST_PRESSED = 0;
+static int _TICKED = 0;
+static int _SHIFT = 0;
+static int  _LANGUAGE = 0;
 
 static char* tempArray = "__1234567890-=__qwertyuiop[]__asdfghjkl;'`_\\zxcvbnm,./____________________"
     "_________________________________________________________________________________________________"
