@@ -53,7 +53,8 @@ typedef struct {
   dword base;
 } IDTR;
 
-     
+typedef int size_t;
+typedef short int ssize_t;
 
 #endif
 
