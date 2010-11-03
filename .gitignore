@@ -3,5 +3,5 @@ img
 bin
 .gitignore
 arma
-bochsrc.txt
+./bochsrc.txt
 log.bochs
