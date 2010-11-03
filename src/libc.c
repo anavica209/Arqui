@@ -86,28 +86,3 @@ void printf(char* string, ...){
     }
 }
 
-
-/***
-    Temporary write and read
-***/
-int tickpos=0;
-
-void write(int fileDescriptor, char* buffer, int size){
-    char *video = (char *) 0xb8000;
-    while(size){
-        video[tickpos] = buffer[0];
-        __asm volatile(
-            "out %1 %0"
-            : 
-            : 
-        );
-        tickpos += 2;
-        buffer++;
-        size--;
-    }
-};
-
-void read(int fileDescriptor, char* buffer, int size){
-
-};
-
