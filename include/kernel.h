@@ -14,6 +14,14 @@
 int (*player)(void);
 
 
+/**
+    Now we list the calls the user can make
+**/
+#define WRITE_SYSCALL_ID 0
+#define READ_SYSCALL_ID 1
+#define UPDATE_SCREEN_SYSCALL_ID 2
+#define REFRESH_SCREEN_SYSCALL_ID 3
+
 typedef enum eINT_80 {WRITE=0, READ} tINT_80;
 typedef enum eUSER {U_KERNEL=0, U_NORMAL} tUSERS;
 

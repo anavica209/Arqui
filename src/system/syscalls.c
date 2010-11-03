@@ -1,3 +1,53 @@
+#include "../../include/syscalls.c"
+
+/***
+
+Este archivo contiene el código de las llamadas del usuario a read()
+y a write(), así como las funciones que se encargan de manejar estas
+syscalls, del lado del cliente. Tal vez convenga separarlas para que
+el usuario no pueda llamar directamente a __write o a __read, que son
+las que realmente hacen el trabajo desde el lado del kernel (y en 
+teoría, tienen permisos de kernel por lo que no pueden ser utilizadas
+por él)
+
+***/
+
+static int writeAux(int fd, const void* buffer, size_t count);
+static int readAux(int fd, const void* buffer, size_t count);
+
+size_t write(int fileDescriptor, const void* buffer, size_t count){
+    size_t response;
+
+    // Checkear esta función que hace una INT en assembler inline
+    __asm inline(
+        "int 80h"
+        : "=a" , response
+        : "a", WRITE_SYSCALL_ID,
+          "b", fileDescriptor,
+          "c", buffer,
+          "d", count
+        : "memory"
+    );
+
+    return response;
+}
+size_t read(int fileDescriptor, const void* buffer, size_t count){
+    size_t response;
+
+    // Checkear esta función que hace una INT en assembler inline
+    __asm inline(
+        "int 80h"
+        : "=a" , response
+        : "a", READ_SYSCALL_ID,
+          "b", fileDescriptor,
+          "c", buffer,
+          "d", count
+        : "memory"
+    );
+
+    return response;
+}
+
 /* __write
 *
 * Recibe como parametros:
@@ -6,17 +56,6 @@
 * - Cantidad
 *
 **/
-
-static int writeAux(int fd, const void* buffer, size_t count){
-  int i=0;
-  while(((char*)buffer)[i]!=INVALID || i<MAX_BUFFER){
-	_write_character(&fd, &(((char *)buffer)[i]), &count);
-	i++;
-  }
-  return i;
-}
-
-
 size_t __write(int fd, const void* buffer, size_t count){
   int i=0;
   switch(fd){
@@ -30,14 +69,6 @@ size_t __write(int fd, const void* buffer, size_t count){
   return i;
 }
 
-static int readAux(int fd, const void* buffer, size_t count){
-  int i=0;
-  while(((char*)buffer)[i]!=INVALID || i<MAX_BUFFER){
-	_read_character(&fd, &(((char *)buffer)[i]), &count);
-	i++;
-  }
-  return i;
-}
 
 /* __read
 *
@@ -48,12 +79,15 @@ static int readAux(int fd, const void* buffer, size_t count){
 *
 **/
 size_t __read(int fd, void* buffer, size_t count){
-  int i=0;
+  int i=-1;
   switch(fd){
-    case STDIN:		i=readAux(fd, buffer, count);
-			break;
-    case STDOUT:	i=readAux(fd, buffer, count);
-			break;
+    case STDIN:
+    case STDOUT:
+        i=readAux(fd, buffer, count);
+        break;
+
+    default:
+        break;
   }
   return i;
 }
@@ -71,7 +105,7 @@ static void copy(char * d, char * f){
     d[i]=f[i];
 } 
 
-void scroll(char m[][MAXCOL], int desde, int hasta){
+static void scroll(char m[][MAXCOL], int desde, int hasta){
   char aux[MAXCOL];
   int i;
   inicialize(aux);
@@ -83,4 +117,22 @@ void scroll(char m[][MAXCOL], int desde, int hasta){
     else
       copy(m[i],inicialize(aux));
   }
+}
+
+static int writeAux(int fd, const void* buffer, size_t count){
+  int i=0;
+  while(((char*)buffer)[i]!=INVALID || i<MAX_BUFFER){
+	_write_character(&fd, &(((char *)buffer)[i]), &count);
+	i++;
+  }
+  return i;
+}
+
+static int readAux(int fd, const void* buffer, size_t count){
+  int i=0;
+  while(((char*)buffer)[i]!=INVALID || i<MAX_BUFFER){
+	_read_character(&fd, &(((char *)buffer)[i]), &count);
+	i++;
+  }
+  return i;
 }
