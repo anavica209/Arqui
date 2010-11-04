@@ -19,7 +19,7 @@ size_t write(int fileDescriptor, const void* buffer, size_t count){
     size_t response;
 
     // Checkear esta función que hace una INT en assembler inline
-/*    __asm inline(
+    __asm {
         "int 80h"
         : "=a" , response
         : "a", WRITE_SYSCALL_ID,
@@ -27,7 +27,7 @@ size_t write(int fileDescriptor, const void* buffer, size_t count){
           "c", buffer,
           "d", count
         : "memory"
-    ); */
+    }
 
     return response;
 }

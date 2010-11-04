@@ -11,7 +11,7 @@ void printf(char* string, ...){
     while (*string != 0){
         if (*string != '\\'){
             // Esta es la parte fácil. Que linda sería la vida...
-            // putc(*string);
+            putc(*string);
             string++;
         } else {
             char option;
