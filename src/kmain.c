@@ -1,6 +1,7 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
 #include "../include/libc.h"
+#include "../include/video.h"
 
 DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
@@ -35,11 +36,6 @@ kmain()
 
         int i,num;
 
-/* Borra la pantalla. */ 
-
-	k_clear_screen();
-
-
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
@@ -63,7 +59,9 @@ kmain()
         
 	_Sti();
 
-/* Bucle principal */
+/* Inicializa el video, y bucle principal */
+
+        init_video();
 
         while(1)
         {

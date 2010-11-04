@@ -1,5 +1,5 @@
-#include "../include/libc.h"
-#include "../include/keyboard.h"
+#include "../../include/libc.h"
+#include "../../include/keyboard.h"
 
 static char _LAST_PRESSED = 0;
 static int _TICKED = 0;

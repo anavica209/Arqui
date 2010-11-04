@@ -1,22 +1,23 @@
-#include "../include/video.h"
+#include "../../include/video.h"
+#include "../../include/defs.h"
 
-Video *controller;
-Console *current;
+static Console *current;
 
-int init_video(Video *control){
-    controller = control;
+int init_video(){
     refresh_video();
+    return 0;
 }
 
 int _set_terminal(Console *console){
     refresh_video();
+    return 0;
 }
 
 int refresh_video(){
-    
+    return 0;
 }
 
 int update_video(int row, int col, size_t length){
-    
+    return 0;
 }
 

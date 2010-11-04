@@ -1,4 +1,4 @@
-#include "../../include/syscalls.c"
+#include "../../include/syscalls.h"
 
 /***
 
@@ -19,7 +19,7 @@ size_t write(int fileDescriptor, const void* buffer, size_t count){
     size_t response;
 
     // Checkear esta función que hace una INT en assembler inline
-    __asm inline(
+/*    __asm inline(
         "int 80h"
         : "=a" , response
         : "a", WRITE_SYSCALL_ID,
@@ -27,7 +27,7 @@ size_t write(int fileDescriptor, const void* buffer, size_t count){
           "c", buffer,
           "d", count
         : "memory"
-    );
+    ); */
 
     return response;
 }
@@ -35,7 +35,7 @@ size_t read(int fileDescriptor, const void* buffer, size_t count){
     size_t response;
 
     // Checkear esta función que hace una INT en assembler inline
-    __asm inline(
+/*    __asm inline(
         "int 80h"
         : "=a" , response
         : "a", READ_SYSCALL_ID,
@@ -44,7 +44,7 @@ size_t read(int fileDescriptor, const void* buffer, size_t count){
           "d", count
         : "memory"
     );
-
+*/
     return response;
 }
 
