@@ -4,7 +4,7 @@ EXTERN _keyboard_interpreter
 _int_09_hand:
     push    ds
     push    es
-    pusha
+    pushad
 
     xor     eax,eax
 
@@ -33,7 +33,7 @@ _int_09_hand:
     out     20h, al     ; acknowledge to PIC
 
     ; Restore registers
-    popa  
+    popad 
     pop     es
     pop     ds
     iret

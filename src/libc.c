@@ -10,10 +10,12 @@ void printf(char* string, ...){
 
     while (*string != 0){
         if (*string != '\'){
+            // Esta es la parte fácil. Que linda sería la vida...
             putc(*string);
             string++;
         } else {
             char option;
+            // Busco el primer char que es el tipo de cosa que tengo que hacer
             for (i = 0; string[i]!=0 && string[i]<'z' && string[i]>'a'; i++);
             switch (string[i]) {
                 case 's':
