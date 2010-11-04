@@ -25,8 +25,9 @@ int set_terminal(int which){
 int refresh_video(){
     // STUB
     // Esto tiene que ser una syscall
-    char* video = VIDEO_ADDRESS;
-    for (int i = 0; i < sizeof(current_console->screen); i++){
+    char* video = (char*)VIDEO_ADDRESS;
+    int i;
+    for (i = 0; i < sizeof(current_console->screen); i++){
         *(video + i) = current_console->screen[i];
     }
     return 0;
@@ -35,8 +36,9 @@ int refresh_video(){
 int update_video(int pointer, size_t length){
     // STUB
     // Esto tiene que ser una syscall
-    char* video = VIDEO_ADDRESS + pointer;
-    for (int i = 0; i < length*2; i++){
+    char* video = (char*)VIDEO_ADDRESS + pointer;
+    int i;
+    for (i = 0; i < length*2; i++){
         *(video + i) = current_console->screen[i];
     }
 }

@@ -66,5 +66,8 @@ typedef short int ssize_t;
 #define MAXCOL 80
 #define MAXFIL 25
 
+#define true 1
+#define false 0
+
 #endif
 

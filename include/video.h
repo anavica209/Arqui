@@ -6,7 +6,7 @@
 
 int init_video();
 
-int set_terminal(Console*);
+int set_terminal(int which);
 
 int refresh_video();
 

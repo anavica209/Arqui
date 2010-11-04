@@ -1,5 +1,8 @@
 #include "../../include/console.h"
+#include "../../include/video.h"
 #include "../../include/syscalls.h"
+#include "../../include/defs.h"
+#include "../../include/libc.h"
 
 int init_console(Console* console){
     int i;
@@ -28,22 +31,23 @@ int init_console(Console* console){
 int loop(){
     char buffer[80*23];
     while(true){
-        int i = 0;
+        int i = 0, j;
         while ((buffer[i] = getc()) != 0);
-        for (int j = 0; j < i; j++){
+        for (j = 0; j < i; j++){
             console_inputchar(buffer[i]);
         }
     }
 }
 
 int console_inputchar(char new_char){
-    current_console->input_buffer[current_console->end++] = new_char;
+    current_console->input_buffer[current_console->end_buffer++] = new_char;
 
-    // TODO: handle special cases, like backspace or tab
+    // TODO: handle special cases, like backspace or tab or enter!
 
     current_console->screen[current_console->pointer] = new_char;
 
     current_console->pointer += 2;
 
-    update_screen(current_console->pointer, 1);
+    update_video(current_console->pointer, 1);
 }
+

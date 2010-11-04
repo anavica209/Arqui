@@ -17,4 +17,6 @@ int init_console();
 
 int loop();
 
+int console_inputchar(char);
+
 #endif

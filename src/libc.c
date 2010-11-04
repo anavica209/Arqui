@@ -42,3 +42,13 @@ void printf(char* string, ...){
     }
 }
 
+char getc(){
+    char retval;
+    read(STDIN, &retval, 1);
+    return retval;
+}
+
+int putc(char what){
+    write(STDOUT, &what, 1);
+}
+

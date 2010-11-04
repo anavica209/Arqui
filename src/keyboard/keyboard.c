@@ -1,4 +1,4 @@
-#include "../../include/libc.h"
+#include "../../include/defs.h"
 #include "../../include/keyboard.h"
 
 static char _LAST_PRESSED = 0;
