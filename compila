@@ -19,7 +19,8 @@ nasm -g -f aout ../src/system/int_80_hand.asm -o syscalls_asm.o
 
 # Userspace stuff
 gcc -g -c ../src/libc.c  -o libc.o -fno-builtin
+gcc -g -c ../src/video/console.c  -o console.o -fno-builtin
 
 
-ld -T ../src/link.ld -o kernel.bin kernel.o kstart.o libc.o libasm.o clock.o keyboard.o keyboardasm.o syscalls.o video.o syscalls_asm.o
+ld -T ../src/link.ld -o kernel.bin kernel.o kstart.o libc.o libasm.o clock.o keyboard.o keyboardasm.o syscalls.o video.o syscalls_asm.o console.o
 

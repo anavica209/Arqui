@@ -3,7 +3,7 @@
 
 static Console *current;
 
-static Console[2] console_array;
+static Console console_array[2];
 
 int init_video(){
     
