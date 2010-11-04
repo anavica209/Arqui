@@ -1,7 +1,7 @@
 #include "../../include/defs.h"
 #include "../../include/keyboard.h"
 
-static char _LAST_PRESSED = 0;
+static int _LAST_PRESSED = 0;
 static int _TICKED = 0;
 static int _SHIFT = 0;
 static int  _LANGUAGE = 0;
@@ -13,20 +13,14 @@ static char* tempArray = "__1234567890-=__qwertyuiop[]__asdfghjkl;'`_\\zxcvbnm,.
     "_________________________________________________________________________________________________"
     "_________________________________________________________________________________________________";
 
-static char decode(char keycode, char escaped)
-{
-    return tempArray[(int)keycode];    
-}
-
 void _keyboard_interpreter(int data)
 {
-    char keycode = data & 0xFF;
-    char escape  = (data & 0xFF00) >> 8;
+    // KEYBOARD_QUEUE_FD está declarado en keyboard.h
+    // y es un file descriptor para la cola de eventos de teclado
+    write(KEYBOARD_QUEUE_FD, data, 1);
 
     if (keycode & 0x80) { // Key make
-        char translation = decode(keycode^0x80, escape);
-        write(0, &translation, 1);
-        _LAST_PRESSED = translation;
+        _LAST_PRESSED = data;
         _TICKED = false;
     } else { // key release
         _LAST_PRESSED = 0;
@@ -37,7 +31,7 @@ void _keyboard_repeater()
 {
     if (_LAST_PRESSED != 0){
         if (_TICKED){
-            write(0, &_LAST_PRESSED, 1);
+            write(KEYBOARD_QUEUE_FD, &_LAST_PRESSED, 1);
         } else {
             _TICKED = true;
         }
