@@ -5,3 +5,4 @@ bin
 arma
 ./bochsrc.txt
 log.bochs
+*.swp
