@@ -15,34 +15,6 @@ por él)
 static int writeAux(int fd, const void* buffer, size_t count);
 static int readAux(int fd, const void* buffer, size_t count);
 
-size_t write(int fileDescriptor, const void* buffer, size_t count){
-    size_t response;
-
-    // Checkear esta función que hace una INT en assembler inline
-    asm pushad
-    asm mov eax, WRITE_SYSCALL_ID
-    asm mov ebx, fileDescriptor 
-    asm mov ecx, buffer
-    asm mov edx, count
-    asm int 80h
-    asm popad
-
-    return response;
-}
-size_t read(int fileDescriptor, const void* buffer, size_t count){
-    size_t response;
-
-    asm pushad
-    asm mov eax, READ_SYSCALL_ID
-    asm mov ebx, fileDescriptor 
-    asm mov ecx, buffer
-    asm mov edx, count
-    asm int 80h
-    asm popad
-
-    return response;
-}
-
 /* __write
 *
 * Recibe como parametros:

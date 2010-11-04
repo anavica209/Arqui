@@ -34,7 +34,7 @@ _int_80_hand:
     push ecx
     push ebx
     call __write
-    addl esp, 0x0Ch ; pop registers, not used
+    add esp, 12 ; pop registers, not used
     jmp _exit
 
   _call_read:
@@ -42,15 +42,15 @@ _int_80_hand:
     push ecx
     push ebx
     call __read
-    addl esp, 0x0Ch ; pop registers, not used
+    add esp, 12 ; pop registers, not used
     jmp _exit
 
   _call_refresh:
-    call __refresh_video
+    ;call __refresh_video
     jmp _exit
 
   _call_update:
-    call __update_video
+    ;call __update_video
     jmp _exit
 
   _exit:
