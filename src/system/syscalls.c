@@ -19,32 +19,27 @@ size_t write(int fileDescriptor, const void* buffer, size_t count){
     size_t response;
 
     // Checkear esta función que hace una INT en assembler inline
-    __asm {
-        "int 80h"
-        : "=a" , response
-        : "a", WRITE_SYSCALL_ID,
-          "b", fileDescriptor,
-          "c", buffer,
-          "d", count
-        : "memory"
-    }
+    asm pushad
+    asm mov eax, WRITE_SYSCALL_ID
+    asm mov ebx, fileDescriptor 
+    asm mov ecx, buffer
+    asm mov edx, count
+    asm int 80h
+    asm popad
 
     return response;
 }
 size_t read(int fileDescriptor, const void* buffer, size_t count){
     size_t response;
 
-    // Checkear esta función que hace una INT en assembler inline
-/*    __asm inline(
-        "int 80h"
-        : "=a" , response
-        : "a", READ_SYSCALL_ID,
-          "b", fileDescriptor,
-          "c", buffer,
-          "d", count
-        : "memory"
-    );
-*/
+    asm pushad
+    asm mov eax, READ_SYSCALL_ID
+    asm mov ebx, fileDescriptor 
+    asm mov ecx, buffer
+    asm mov edx, count
+    asm int 80h
+    asm popad
+
     return response;
 }
 
