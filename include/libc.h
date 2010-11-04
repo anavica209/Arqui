@@ -1,7 +1,7 @@
 #ifndef __libc_h__
 #define __libc_h__
 
-// Falta printf acá, y scanf y getc y putc
+// Falta printf acá, y scanf 
 
 void printf(char*, ...);
 
