@@ -62,10 +62,9 @@ kmain()
 /* Inicializa el video, y bucle principal */
 
         init_video();
-
-        while(1)
-        {
-        }
 	
+        set_terminal(0);
+
+        loop();
 }
 

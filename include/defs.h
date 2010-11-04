@@ -56,6 +56,8 @@ typedef struct {
 typedef int size_t;
 typedef short int ssize_t;
 
+#define CONSOLE_ADDRESS 0xB8000
+
 #define INVALID -1
 #define STDIN	0
 #define STDOUT	1
