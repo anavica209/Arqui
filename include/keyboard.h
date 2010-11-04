@@ -34,7 +34,7 @@ int keyboard_queue_read();
 
 #define ENGLISH	0		
 #define SPANISH 1
-#define CURRENT_LANGUAGE 0
+int CURRENT_LANGUAGE;
 
 //
 // Dado un key event, esta función devuelve el char ascii que corresponde 
