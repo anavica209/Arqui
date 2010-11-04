@@ -44,11 +44,11 @@ void printf(char* string, ...){
 
 char getc(){
     char retval;
-    read(STDIN, &retval, 1);
+    while (read(STDIN, &retval, 1) != 0);
     return retval;
 }
 
 int putc(char what){
-    write(STDOUT, &what, 1);
+    return write(STDOUT, &what, 1);
 }
 

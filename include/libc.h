@@ -3,9 +3,9 @@
 
 // Falta printf acá, y scanf y getc y putc
 
-void printf(char* string, ...);
+void printf(char*, ...);
 
 char getc();
-char putc();
+int putc(char);
 
 #endif //__libc_h__
