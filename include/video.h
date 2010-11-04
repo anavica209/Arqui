@@ -2,9 +2,7 @@
 #define __video_h__
 
 #include "defs.h"
-
-typedef struct {
-} Console;
+#include "console.h"
 
 int init_video();
 

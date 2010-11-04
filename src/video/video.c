@@ -3,7 +3,10 @@
 
 static Console *current;
 
+static Console[2] console_array;
+
 int init_video(){
+    
     refresh_video();
     return 0;
 }
