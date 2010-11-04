@@ -9,7 +9,8 @@
 // read(KEYBOARD_QUEUE_FD, ...);
 //
 #define KEYBOARD_QUEUE_FD 3
-int keyboard_queue[1024];
+#define KEYBOARD_QUEUE_SIZE 1024
+int keyboard_queue[KEYBOARD_QUEUE_SIZE];
 
 //
 // Límites de la cola de teclado.

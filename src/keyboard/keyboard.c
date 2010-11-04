@@ -53,10 +53,66 @@ static char ascii_interpreter(int keycode)
     return caracter;
 }
 
+//
+// Bastante descriptivo lo que hace esta funcion...
+//
 void set_language(int lang){
     CURRENT_LANGUAGE = lang;
 }
 
+//
+// Inicializa la cola del teclado
+//
+int keyboard_queue_initialize(){
+    keyboard_queue_begin = 0;
+    keyboard_queue_end = 0;
+}
+
+// Función llamda cuando alguien hace un write en KEYBOARD_QUEUE_FD
+int keyboard_queue_write(int keycode){
+    int next = keyboard_queue_end + 1;
+    if (next == KEYBOARD_QUEUE_SIZE){
+        next = 0;
+    }
+    if (next != keyboard_queue_begin){
+        keyboard_queue[keyboard_queue_end] = keycode;
+        keyboard_queue_end = next;
+        return 1;
+    } else {
+        // Could not write. Buffer full
+        return -1;
+    }
+}
+
+// Función llamada cuando alguien hace un read a KEYBOARD_QUEUE_FD
+int keyboard_queue_read(){
+    if (keyboard_queue_begin != keyboard_queue_end){
+
+        // Me guardo el valor del primer elemento de la cola
+        int retval = keyboard_queue[keyboard_queue_begin];
+
+        // Incremento el valor de donde empieza mi cola y "doy la vuelta"
+        // si es necesario (me pasé del final del arreglo)
+        keyboard_queue_begin++;
+        if (keyboard_queue_begin == KEYBOARD_QUEUE_SIZE){
+            keyboard_queue_begin = 0;
+        }
+        return retval; 
+    } else {
+        // No hay nada para leer aquí muchachos...
+        return -1;
+    }
+}
+
+/**
+ *
+ *
+ *
+ *   Estas funciones son usadas por las interrupuciones de
+ *   teclado
+ *
+ *
+ */
 void _keyboard_interpreter(int data)
 {
     // KEYBOARD_QUEUE_FD está declarado en keyboard.h
