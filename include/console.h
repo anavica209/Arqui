@@ -6,12 +6,12 @@
 
 typedef struct {
     char screen[80*25*2];
-
-    char pointer_row;
-    char pointer_col;
-
     char input_buffer[80*23];
+    int end_buffer;
+    int pointer;
 } Console;
+
+Console* current_console;
 
 int init_console();
 

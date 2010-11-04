@@ -10,6 +10,6 @@ int set_terminal(Console*);
 
 int refresh_video();
 
-int update_video(int row, int col, size_t lenght);
+int update_video(int pointer, size_t lenght);
 
 #endif //__video_h__
