@@ -8,7 +8,7 @@ int init_video(){
     return 0;
 }
 
-int _set_terminal(Console *console){
+int set_terminal(Console *console){
     refresh_video();
     return 0;
 }

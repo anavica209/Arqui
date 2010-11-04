@@ -7,12 +7,11 @@
  **********************/
 void printf(char* string, ...){
     int i=0;
-    va_start();
 
     while (*string != 0){
         if (*string != '\\'){
             // Esta es la parte fácil. Que linda sería la vida...
-            putc(*string);
+            // putc(*string);
             string++;
         } else {
             char option;
