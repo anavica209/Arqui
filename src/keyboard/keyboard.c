@@ -6,20 +6,22 @@ static int _TICKED = 0;
 static int _SHIFT = 0;
 static char _SPACE = ' ';
 
-static char* tempArray =  "__1234567890-=__qwertyuiop[]__asdfghjkl;'`_\\zxcvbnm,./____________________"
-    "_________________________________________________________________________________________________"
-    "_________________________________________________________________________________________________"
-    "_________________________________________________________________________________________________"
-    "_________________________________________________________________________________________________"
-    "_________________________________________________________________________________________________";
-
+static char* english    = "__1234567890-=__qwertyuiop[]__asdfghjkl;'`_\\zxcvbnm,./____________________"
 static char* englishmays= "__!@#$%^&*()_+__QWERTYUIOP{}__ASDFGHJKL:_~_|ZXCVBNM<>?_____________________";
-static char* spanish	= "__1234567890'¡_qwertyuiop`+__asdfghjklñ<zxcvbnm,.-____________________";
-static char* spanishmays= "__!__$%&/()=?¿__QWERTYUIOP^*_ASDFGHJKLÑ¨Ç_>ZXCVBNM;:_____________________";
+static char* spanish	= "__1234567890'¡_qwertyuiop`+__asdfghjklñ<zxcvbnm,.-_________________________";
+static char* spanishmays= "__!__$%&/()=?¿__QWERTYUIOP^*_ASDFGHJKLÑ¨Ç_>ZXCVBNM;:_______________________";
 
-static char ascii_interpreter(int keycode)
+/**
+ *
+ *  Este es el intérprete de keycodes que deberían usar varias
+ * aplicaciones del SO, sobre todo la terminal, y el kernel cuando 
+ * escriba en el STDIN el valor de las cosas del teclado.
+ *
+ */
+char ascii_interpreter(int keycode)
 {
     char escaped = (keycode>>8) & 0xFF;
+    keycode &= 0xFF;
 	
     int shift = false;
     char caracter=0;
@@ -27,28 +29,35 @@ static char ascii_interpreter(int keycode)
         shift = true;
     }
 	
-// tecla para cambiar de consola ?
-// que pasa con enter
-// que pasa con el delete. necesito retroceder una pos en el buffer y 'sobreescribir' lo que habia.
-// quiza se podria hacer pasandole a write un 0 en la cantidad de chars a escribir, ultimo argumento.
+    if(keycode==0x39){
 
-    if(keycode==0x39){                  //space bar
+        //space bar
         return _SPACE;
-    } else if (keycode==0x0f) {         //tab key to change keyboard language
-        changelanguage();
+
+    } else if (keycode==0x0f) {
+    
+        //tab key changes keyboard language (for now)
+        set_language(!CURRENT_LANGUAGE);
         return NONE;                    //no key, do not write in buffer. 
-    } else if (_LANGUAGE==ENGLISH) {
+
+    } else if (CURRENT_LANGUAGE==ENGLISH) {
+
+        // We're talking in englishh
         if(shift == OFF){
-            caracter= tempArray[(int)keycode];    
+            caracter= english[keycode];    
         } else {
-            caracter= englishmays[(int)keycode];
+            caracter= englishmays[keycode];
         }
+
     } else {
+
+        // Hablamos español, orale chamaco!
         if(shift == OFF){
-            caracter= spanish[(int)keycode];
+            caracter= spanish[keycode];
         } else {
-            caracter= spanishmays[(int)keycode];
+            caracter= spanishmays[keycode];
         }
+
     }
     return caracter;
 }
