@@ -41,5 +41,6 @@ int update_video(int pointer, size_t length){
     for (i = 0; i < length*2; i++){
         *(video + i) = current_console->screen[i];
     }
+    return 0;
 }
 
