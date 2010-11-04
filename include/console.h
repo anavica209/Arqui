@@ -1,8 +1,8 @@
 #ifndef __console_h__
 #define __console_h__
 
-#define COLOR_WHITE_OVER_WHITE
-#define COLOR_WHITE_OVER_BLACK
+#define COLOR_WHITE_OVER_WHITE 0x7
+#define COLOR_WHITE_OVER_BLACK 0x3
 
 typedef struct {
     char screen[80*25*2];

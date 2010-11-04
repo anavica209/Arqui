@@ -21,7 +21,7 @@ int init_console(Console* console){
     console->pointer_col = 1;
 
     for (i = 0; i < sizeof(console->input_buffer); i++){
-        console->input_buffer = 0;
+        console->input_buffer[i] = '\0';
     }
 }
 
