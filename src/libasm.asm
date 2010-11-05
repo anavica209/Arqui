@@ -86,10 +86,12 @@ vuelve:	mov     ax, 1
 
 
 _write_character:
-;	mov eax,4		Servicio 4: escritura (write). Los parámetros necesarios son:
-;//	mov bx,1		   EBX: unidad de salida (1: salida estándar)
-;//	mov ecx,oración		   ECX: Puntero a un área de memoria donde se encuentran los caracteres a mostrar.
-;//	mov edx,100		   EDX: Número máximo de caracteres a mostrar. 
+;http://leto.net/writing/nasm.php
+;http://snippets-tricks.org/ensamblador-y-c/
+;	mov eax,4		Servicio 4: escritura (write). Los parï¿½tros necesarios son:
+;//	mov bx,1		   EBX: unidad de salida (1: salida estï¿½ar)
+;//	mov ecx,oraciï¿½   ECX: Puntero a un ï¿½a de memoria donde se encuentran los caracteres a mostrar.
+;//	mov edx,100		   EDX: Nï¿½ mï¿½mo de caracteres a mostrar. 
 	push	ebp
 	mov	ebp, esp
 ;	//servicio
@@ -101,13 +103,13 @@ _write_character:
 	mov	ebx,[ss: ebp + 6]	;//dejo en algun registro el valor del file descriptor
 ;//se agrega a la pila direccion de buffer y se desreferencia como un char
 	push 	ecx
-        mov     ecx, [ss: ebp + 6] ; ds:bx = puntero a buffer 
+         mov     ecx, [ss: ebp + 10] ; ds:bx = puntero a buffer 
 	rol	ecx,16		    	
 	lidt    [ds: ecx]          ; carga primer char
 	
 ;//valor del count
 	push 	edx
-	mov	edx,[ss: ebp + 6]	;//dejo en algun registro la cantidad a copiar	
+	mov	edx,[ss: ebp + 14]	;//dejo en algun registro la cantidad a copiar	
  
 	int 80h
 	pop	edx
@@ -119,10 +121,10 @@ _write_character:
 
 
 _read_character:
-;//mov eax,3	Servicio 3: lectura (read). Los parámetros necesarios son:
-;//mov bx,0	    EBX: unidad de entrada (0: entrada estándar).
-;//mov ecx,oración	    ECX: Puntero a un área de memoria donde se dejarán los caracteres obtenidos.
-;//mov edx,100 	    EDX: Número máximo de caracteres a leer.
+;//mov eax,3	Servicio 3: lectura (read). Los parï¿½tros necesarios son:
+;//mov bx,0	    EBX: unidad de entrada (0: entrada estï¿½ar).
+;//mov ecx,oraciï¿½   ECX: Puntero a un ï¿½a de memoria donde se dejarï¿½los caracteres obtenidos.
+;//mov edx,100 	    EDX: Nï¿½ mï¿½mo de caracteres a leer.
 	push	ebp
 	mov	ebp, esp
 ;	//servicio
@@ -134,13 +136,13 @@ _read_character:
 	mov	ebx,[ss: ebp + 6]	;//dejo en algun registro el valor del file descriptor
 ;//se agrega a la pila direccion de buffer y se desreferencia como un char
 	push 	ecx
-        mov     ecx, [ss: ebp + 6] ; ds:bx = puntero a buffer 
+        mov     ecx, [ss: ebp + 10] ; ds:bx = puntero a buffer 
 	rol	ecx,16		    	
 	lidt    [ds: ecx]          ; carga primer char
 	
 ;//valor del count
 	push 	edx
-	mov	edx,[ss: ebp + 6]	;	//dejo en algun registro la cantidad a copiar	
+	mov	edx,[ss: ebp + 14]	;	//dejo en algun registro la cantidad a copiar	
  
 	int 80h
 	pop	edx
