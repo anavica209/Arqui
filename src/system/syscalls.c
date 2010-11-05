@@ -2,18 +2,14 @@
 
 /***
 
-Este archivo contiene el código de las llamadas del usuario a read()
-y a write(), así como las funciones que se encargan de manejar estas
-syscalls, del lado del cliente. Tal vez convenga separarlas para que
-el usuario no pueda llamar directamente a __write o a __read, que son
-las que realmente hacen el trabajo desde el lado del kernel (y en 
-teoría, tienen permisos de kernel por lo que no pueden ser utilizadas
-por él)
+Este archivo contiene las funciones __read y __write, que son
+llamadas por la interrupción 80h
+
+También contiene una especie de "open", que permite designar
+a un valor entero (file descriptor), dos funciones, una encargada
+de leer y otra de escribir en el archivo
 
 ***/
-
-static int writeAux(int fd, const void* buffer, size_t count);
-static int readAux(int fd, const void* buffer, size_t count);
 
 /* __write
 *
@@ -24,16 +20,7 @@ static int readAux(int fd, const void* buffer, size_t count);
 *
 **/
 size_t __write(int fd, const void* buffer, size_t count){
-  int i=0;
-  switch(fd){
-    case STDIN:
-    case STDOUT:
-        i = writeAux(fd, buffer, count);
-	break;
-    default:
-        break;
-  }
-  return i;
+    return files[fd].write(buffer, count);
 }
 
 
@@ -46,60 +33,21 @@ size_t __write(int fd, const void* buffer, size_t count){
 *
 **/
 size_t __read(int fd, void* buffer, size_t count){
-  int i=-1;
-  switch(fd){
-    case STDIN:
-    case STDOUT:
-        i=readAux(fd, buffer, count);
-        break;
-
-    default:
-        break;
-  }
-  return i;
+    return files[fd].read(buffer, count);
 }
 
-
-static char * inicialize(char * aux){
-  int j;
-  for(j=0 ; j<MAXCOL ; j++)
-    aux[j]=' ';
-}
-
-static void copy(char * d, char * f){
-  int i;
-  for(i=0; i<MAXCOL ; i++)
-    d[i]=f[i];
-} 
-
-static void scroll(char m[][MAXCOL], int desde, int hasta){
-  char aux[MAXCOL];
-  int i;
-  inicialize(aux);
-  for(i=desde ; i<=hasta ; i++){
-    if(i!=0 && i!=hasta)
-      copy(m[i-1], m[i]);
-    else if(i==0)
-      copy(aux, m[0]);
-    else
-      copy(m[i],inicialize(aux));
-  }
-}
-
-static int writeAux(int fd, const void* buffer, size_t count){
-  int i=0;
-  while(((char*)buffer)[i]!=INVALID || i<MAX_BUFFER){
-	_write_character(&fd, &(((char *)buffer)[i]), &count);
-	i++;
-  }
-  return i;
-}
-
-static int readAux(int fd, const void* buffer, size_t count){
-  int i=0;
-  while(((char*)buffer)[i]!=INVALID || i<MAX_BUFFER){
-	_read_character(&fd, &(((char *)buffer)[i]), &count);
-	i++;
-  }
-  return i;
+/* __open
+*
+* Recibe como parametros:
+*
+* - una función a la que llamar cuando se hace write
+* - una función para el read
+*
+* Devuelve:
+* Un entero, que es el file descriptor asignado al archivo
+**/
+int __open((int*) write_function, (int*) read_function){
+    files[FILE_COUNT].write = write_function;
+    files[FILE_COUNT].read = read_function;
+    return FILE_COUNT++;
 }

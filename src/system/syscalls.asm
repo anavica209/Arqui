@@ -1,7 +1,10 @@
 GLOBAL read
 GLOBAL write
+GLOBAL open
 
 write:
+    push ebp
+    mov  ebp, esp
     push ebx
     push ecx
     push edx
@@ -15,10 +18,13 @@ write:
     pop edx
     pop ecx
     pop ebx
+    pop ebp
 
     ret
 
 read:
+    push ebp
+    mov  ebp, esp
     push ebx
     push ecx
     push edx
@@ -32,5 +38,24 @@ read:
     pop edx
     pop ecx
     pop ebx
+    pop ebp
 
     ret
+
+open:
+    push ebp
+    mov  ebp, esp
+    push ebx
+    push ecx
+
+    mov eax, 2
+    mov ebx, [esp + 4]
+    mov ecx, [esp + 8]
+    int 80h
+
+    pop ecx
+    pop ebx
+    pop ebp
+
+    ret
+
