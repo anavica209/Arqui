@@ -66,13 +66,12 @@ kmain()
 /* Inicializa */
 
         init_video();
-        //init_stdio();
-        //keyboard_queue_initialize();
+        init_stdio();
+        keyboard_queue_initialize();
 	
         set_language(ENGLISH);
         set_terminal(0);
 
-        //loop();
-        while(1);
+        loop();
 }
 

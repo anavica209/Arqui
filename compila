@@ -25,3 +25,5 @@ gcc -g -c ../src/video/console.c  -o console.o -fno-builtin
 
 ld -T ../src/link.ld -o kernel.bin kernel.o kstart.o stdio.o libasm.o clock.o keyboard.o keyboardasm.o syscalls.o video.o syscalls1_asm.o syscalls2_asm.o console.o
 
+rm *.o
+
