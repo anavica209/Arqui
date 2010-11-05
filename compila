@@ -15,15 +15,14 @@ gcc -g -c ../src/keyboard/keyboard.c  -o keyboard.o -fno-builtin
 
 # KernelSpace-UserSpace Interface
 gcc -g -c ../src/system/syscalls.c  -o syscalls.o -fno-builtin
-nasm -g -f aout ../src/system/int_80_hand.asm -o syscalls1_asm.o
-nasm -g -f aout ../src/system/syscalls.asm -o syscalls2_asm.o
+nasm -g -f aout ../src/system/int_80_hand.asm -o syscalls_asm.o
 
 # Userspace stuff
 gcc -g -c ../src/system/stdio.c  -o stdio.o -fno-builtin
 gcc -g -c ../src/video/console.c  -o console.o -fno-builtin
 
 
-ld -T ../src/link.ld -o kernel.bin kernel.o kstart.o stdio.o libasm.o clock.o keyboard.o keyboardasm.o syscalls.o video.o syscalls1_asm.o syscalls2_asm.o console.o
+ld -T ../src/link.ld -o kernel.bin kernel.o kstart.o stdio.o libasm.o clock.o keyboard.o keyboardasm.o syscalls.o video.o syscalls_asm.o console.o
 
 rm *.o
 

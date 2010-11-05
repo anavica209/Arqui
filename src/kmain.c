@@ -58,7 +58,8 @@ kmain()
 
 	_Cli();
 
-        _mascaraPIC1(0xFC); 
+        //_mascaraPIC1(0xFC); 
+        _mascaraPIC1(0xFF);
         _mascaraPIC2(0xFF);
         
 	_Sti();
@@ -67,11 +68,11 @@ kmain()
 
         init_video();
         init_stdio();
-        keyboard_queue_initialize();
+        //keyboard_queue_initialize();
 	
         set_language(ENGLISH);
         set_terminal(0);
 
-        loop();
+        // loop();
 }
 

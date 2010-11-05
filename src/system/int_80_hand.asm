@@ -8,9 +8,18 @@ EXTERN __refresh_video
 EXTERN __update_video
 
 _int_80_hand:
-  ; Set stack frame
-  push ebp
-  mov ebp, esp
+
+    ; Guardo los registros ds y es
+    push ds
+    push es
+    pushad
+
+    ; Les escribo arriba
+    push ax
+    mov ax, 10h
+    mov ds, ax
+    mov es, ax
+    pop ax
 
   _check_write:
     cmp ax, 0
@@ -66,7 +75,9 @@ _int_80_hand:
     jmp _exit
 
   _exit:
-    ; Restore stack frame
-    pop ebp
+    ; Restore registers
+    popad
+    pop es
+    pop ds
     iret 
 

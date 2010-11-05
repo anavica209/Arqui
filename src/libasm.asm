@@ -58,8 +58,9 @@ _lidt:				; Carga el IDTR
 _int_08_hand: ; Handler de INT 8 ( Timer tick)
         push ds
         push es ; Se salvan los registros
-        pushad ; Carga de DS y ES con el valor del selector
-
+        pushad
+        
+        ; Carga de DS y ES con el valor del selector
         mov ax, 10h ; a utilizar.
         mov ds, ax
         mov es, ax
