@@ -2,9 +2,11 @@ GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
-GLOBAL  _write_character
-GLOBAL  _read_character
 GLOBAL  _int_stupid_handler
+
+GLOBAL read
+GLOBAL write
+GLOBAL open
 
 EXTERN  int_08
 
@@ -74,6 +76,63 @@ _int_stupid_handler:
     nop
     nop
     iret
+
+write:
+    push ebp
+    mov  ebp, esp
+    push ebx
+    push ecx
+    push edx
+
+    mov eax, 0
+    mov ebx, [esp + 4]
+    mov ecx, [esp + 8]
+    mov edx, [esp + 12]
+    int 80h
+
+    pop edx
+    pop ecx
+    pop ebx
+    pop ebp
+
+    ret
+
+read:
+    push ebp
+    mov  ebp, esp
+    push ebx
+    push ecx
+    push edx
+
+    mov eax, 1
+    mov ebx, [esp + 4]
+    mov ecx, [esp + 8]
+    mov edx, [esp + 12]
+    int 80h
+
+    pop edx
+    pop ecx
+    pop ebx
+    pop ebp
+
+    ret
+
+open:
+    push ebp
+    mov  ebp, esp
+    push ebx
+    push ecx
+
+    mov eax, 2
+    mov ebx, [esp + 4]
+    mov ecx, [esp + 8]
+    int 80h
+
+    pop ecx
+    pop ebx
+    pop ebp
+
+    ret
 
 ; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0
 ;
