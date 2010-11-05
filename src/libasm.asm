@@ -55,7 +55,7 @@ _lidt:				; Carga el IDTR
 
 
 _int_08_hand:				; Handler de INT 8 ( Timer tick)
-        pushad                          ; Carga de DS y ES con el valor del selector
+        pushad 
 
         call    int_08                 
 

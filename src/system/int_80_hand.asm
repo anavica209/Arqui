@@ -11,9 +11,6 @@ _int_80_hand:
   ; Set stack frame
   push ebp
   mov ebp, esp
-  ; Do not hear interruptions
-  ; TODO
-  call _Cli
 
   _check_write:
     cmp ax, 0
@@ -71,7 +68,5 @@ _int_80_hand:
   _exit:
     ; Restore stack frame
     pop ebp
-    ; Restore interrupts
-    call _Sti
     iret 
 
