@@ -22,12 +22,16 @@ _int_80_hand:
     cmp ax, 1
     je _call_read
 
-  _check_refresh:
+  _check_open:
     cmp ax, 2
+    je _call_read
+
+  _check_refresh:
+    cmp ax, 4
     je _call_refresh
  
   _check_update:
-    cmp ax, 3
+    cmp ax, 5
     je _call_update
 
   jmp _exit
@@ -46,6 +50,13 @@ _int_80_hand:
     push ebx
     call __read
     add esp, 12 ; pop registers, not used
+    jmp _exit
+
+  _call_open:
+    push ecx
+    push ebx
+    call __open
+    add esp, 8 ; pop registers, not used
     jmp _exit
 
   _call_refresh:
