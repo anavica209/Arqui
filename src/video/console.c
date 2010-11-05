@@ -1,6 +1,7 @@
 #include "../../include/console.h"
 #include "../../include/video.h"
 #include "../../include/syscalls.h"
+#include "../../include/keyboard.h"
 #include "../../include/defs.h"
 #include "../../include/libc.h"
 
@@ -11,18 +12,18 @@ int init_console(Console* console){
 
     for (i = 0; i < sizeof(console->screen); i++){
         // Si es par, es el atributo, sino, es el char
-        console->screen[i] = i&1 ? ' ' : COLOR_WHITE_OVER_BLACK;
+        console->screen[i] = i&1 ? COLOR_WHITE_OVER_BLACK : ' ';
     }
 
     // Draw the bar
-    for (i = 0; i < 25*2; i+=2){
-        console->screen[80*23*2 + i] = COLOR_WHITE_OVER_WHITE;
+    for (i = 1; i < 160; i+=2){
+        console->screen[(80*23)*2 + i] = COLOR_WHITE_OVER_WHITE;
     }
 
     // Draw prompt 
-    console->screen[1] = '$';
+    console->screen[0] = '$';
 
-    console->pointer = 3;
+    console->pointer = 2;
     console->end_buffer = 0;
 
     for (i = 0; i < sizeof(console->input_buffer); i++){
@@ -31,17 +32,25 @@ int init_console(Console* console){
 }
 
 int loop(){
+    int key_event;
+    int retval;
     char new_char;
     while(true){
-        new_char = getc();
-        console_inputchar(new_char);
+        retval = read(KEYBOARD_QUEUE_FD, &key_event, 1);
+        if (retval){
+            if ((new_char = ascii_interpreter(key_event)) != -1){
+                console_inputchar(new_char);
+            } else {
+                // TODO: cambiar de consola, etc...
+                // Handlear enter,
+                // Handlear backspace, etc..
+            }
+        }
     }
 }
 
 static int console_inputchar(char new_char){
     current_console->input_buffer[current_console->end_buffer++] = new_char;
-
-    // TODO: handle special cases, like backspace or tab or enter!
 
     current_console->screen[current_console->pointer] = new_char;
 
