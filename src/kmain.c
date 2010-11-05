@@ -1,6 +1,6 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
-#include "../include/libc.h"
+#include "../include/stdio.h"
 #include "../include/video.h"
 #include "../include/keyboard.h"
 
@@ -63,13 +63,15 @@ kmain()
         
 	_Sti();
 
-/* Inicializa el video, y bucle principal */
+/* Inicializa */
 
         init_video();
+        init_stdio();
 	
         set_language(ENGLISH);
         set_terminal(0);
 
-        loop();
+        //loop();
+        while(1);
 }
 

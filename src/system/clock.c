@@ -1,4 +1,3 @@
-#include "../../include/libc.h"
 #include "../../include/clock.h"
 
 /**

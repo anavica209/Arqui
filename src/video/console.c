@@ -3,9 +3,6 @@
 #include "../../include/syscalls.h"
 #include "../../include/keyboard.h"
 #include "../../include/defs.h"
-#include "../../include/libc.h"
-
-static int console_inputchar(char);
 
 int init_console(Console* console){
     int i;
@@ -39,7 +36,7 @@ int loop(){
         retval = read(KEYBOARD_QUEUE_FD, &key_event, 1);
         if (retval){
             if ((new_char = ascii_interpreter(key_event)) != -1){
-                console_inputchar(new_char);
+                console_write_char(new_char);
             } else {
                 // TODO: cambiar de consola, etc...
                 // Handlear enter,
@@ -49,7 +46,7 @@ int loop(){
     }
 }
 
-static int console_inputchar(char new_char){
+int console_write_char(char new_char){
     current_console->input_buffer[current_console->end_buffer++] = new_char;
 
     current_console->screen[current_console->pointer] = new_char;

@@ -3,6 +3,7 @@ EXTERN _Cli
 EXTERN _Sti
 EXTERN __write
 EXTERN __read
+EXTERN __open
 EXTERN __refresh_video
 EXTERN __update_video
 

@@ -15,6 +15,8 @@ Console* current_console;
 
 int init_console();
 
+int console_write_char(char new_char);
+
 int loop();
 
 

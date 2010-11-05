@@ -59,7 +59,6 @@ typedef short int ssize_t;
 
 #define VIDEO_ADDRESS 0xB8000
 
-#define INVALID -1
 #define MAX_BUFFER 100
 
 #define MAXCOL 80

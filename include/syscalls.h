@@ -1,7 +1,8 @@
+#include "defs.h"
+
 #ifndef __syscalls_h__
 #define __syscalls_h__
 
-#include "defs.h"
 
 /**
     List the calls the user can make
@@ -18,12 +19,12 @@
 #define FILE_ARRAY_SIZE 15
 
 typedef struct{
-    (int*) write;
-    (int*) read;
-} FILE;
+    int (*write)(const void*, size_t);
+    int (*read)(void*, size_t);
+} file_descriptor;
 
-FILE FILES[FILE_ARRAY_SIZE];
-int FILE_COUNT = 0;
+file_descriptor FILES[FILE_ARRAY_SIZE];
+int FILE_COUNT;
 
 /* open
 *
@@ -35,7 +36,7 @@ int FILE_COUNT = 0;
 * Devuelve:
 * Un entero, que es el file descriptor asignado al archivo
 **/
-int open((int*) write_function, (int*) read_function);
+int open(int (*write_function)(const void*, size_t), int (*read_function)(void*, size_t));
 
 /* write
 *
@@ -55,6 +56,7 @@ size_t write(int fileDescriptor, const void* buffer, size_t count);
 * - Cantidad
 *
 **/
-size_t read(int fileDescriptor, const void* buffer, size_t count);
+size_t read(int fileDescriptor, void* buffer, size_t count);
 
 #endif
+
