@@ -2,9 +2,10 @@
 #include "../include/defs.h"
 #include "../include/libc.h"
 #include "../include/video.h"
+#include "../include/keyboard.h"
 
-DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
-IDTR idtr;				/* IDTR */
+DESCR_INT idt[0x100]; // The maximum size of the IDT is 255 entries
+IDTR idtr;
 
 /***************************************************************
 *setup_IDT_entry
@@ -38,6 +39,9 @@ kmain()
 
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 
+        for (i = 0; i <= 0xFF; i++){
+            setup_IDT_entry (&idt[i], i, (dword)&_int_stupid_handler, ACS_INT, 0);
+        }
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
         setup_IDT_entry (&idt[0x09], 0x09, (dword)&_int_09_hand, ACS_INT, 0);
         setup_IDT_entry (&idt[0x80], 0x80, (dword)&_int_80_hand, ACS_INT, 0);
@@ -45,7 +49,7 @@ kmain()
 /* Carga de IDTR    */
 
 	idtr.base = 0;  
-	idtr.base +=(dword) &idt;
+	idtr.base += (dword)&idt;
 	idtr.limit = sizeof(idt)-1;
 	
 	_lidt (&idtr);	
@@ -63,6 +67,7 @@ kmain()
 
         init_video();
 	
+        set_language(ENGLISH);
         set_terminal(0);
 
         loop();

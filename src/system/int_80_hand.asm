@@ -1,4 +1,6 @@
 GLOBAL _int_80_hand
+EXTERN _Cli
+EXTERN _Sti
 EXTERN __write
 EXTERN __read
 EXTERN __refresh_video
@@ -10,6 +12,7 @@ _int_80_hand:
   mov ebp, esp
   ; Do not hear interruptions
   ; TODO
+  call _Cli
 
   _check_write:
     cmp ax, 0
@@ -57,6 +60,6 @@ _int_80_hand:
     ; Restore stack frame
     pop ebp
     ; Restore interrupts
-    ; TODO
+    call _Sti
     iret 
 

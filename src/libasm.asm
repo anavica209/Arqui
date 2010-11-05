@@ -4,6 +4,7 @@ GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 GLOBAL  _write_character
 GLOBAL  _read_character
+GLOBAL  _int_stupid_handler
 
 EXTERN  int_08
 
@@ -68,6 +69,9 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
         pop     ds
         iret
 
+
+_int_stupid_handler:
+    iret
 
 ; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0
 ;

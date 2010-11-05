@@ -99,13 +99,16 @@ int keyboard_queue_read(){
         // Me guardo el valor del primer elemento de la cola
         int retval = keyboard_queue[keyboard_queue_begin];
 
-        // Incremento el valor de donde empieza mi cola y "doy la vuelta"
-        // si es necesario (me pasé del final del arreglo)
+        // Incremento el valor de donde empieza mi cola
         keyboard_queue_begin++;
+
+        // "doy la vuelta" si es necesario (me pasé del final del arreglo)
         if (keyboard_queue_begin == KEYBOARD_QUEUE_SIZE){
             keyboard_queue_begin = 0;
         }
+
         return retval; 
+
     } else {
         // No hay nada para leer aquí muchachos...
         return -1;
