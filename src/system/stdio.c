@@ -1,4 +1,4 @@
-#include "../include/libc.h"
+#include "../include/stdio.h"
 #include "../include/syscalls.h"
 
 
