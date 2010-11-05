@@ -126,11 +126,9 @@ static int __write_stdout(const void* buffer, size_t length){
  *
  */
 void init_stdio(){
-    if (STDIN_FD == -1){ // Check that this is done only once
-        STDIN_FD = open(__write_stdin, __read_stdin);
-        STDOUT_FD = open(__write_stdout, __read_stdout);
-        _begin_stdin = 0;
-        _end_stdin = 0;
-    }
+    STDIN_FD = open(__write_stdin, __read_stdin);
+    STDOUT_FD = open(__write_stdout, __read_stdout);
+    _begin_stdin = 0;
+    _end_stdin = 0;
 }
 

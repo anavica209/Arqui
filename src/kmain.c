@@ -66,7 +66,8 @@ kmain()
 /* Inicializa */
 
         init_video();
-        init_stdio();
+        //init_stdio();
+        //keyboard_queue_initialize();
 	
         set_language(ENGLISH);
         set_terminal(0);
