@@ -8,8 +8,8 @@
 //
 // read(KEYBOARD_QUEUE_FD, ...);
 //
-#define KEYBOARD_QUEUE_FD 3
 #define KEYBOARD_QUEUE_SIZE 1024
+int KEYBOARD_QUEUE_FD;
 int keyboard_queue[KEYBOARD_QUEUE_SIZE];
 
 //

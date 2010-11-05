@@ -72,6 +72,7 @@ void set_language(int lang){
 // Inicializa la cola del teclado
 //
 int keyboard_queue_initialize(){
+    KEYBOARD_QUEUE_FD = open(keyboard_queue_write, keyboard_queue_read);
     keyboard_queue_begin = 0;
     keyboard_queue_end = 0;
 }
