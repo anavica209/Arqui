@@ -1,8 +1,8 @@
-#include "../../include/console.h"
-#include "../../include/video.h"
-#include "../../include/syscalls.h"
-#include "../../include/keyboard.h"
-#include "../../include/defs.h"
+#include "../include/console.h"
+#include "../include/video.h"
+#include "../include/syscalls.h"
+#include "../include/keyboard.h"
+#include "../include/defs.h"
 
 int init_console(Console* console){
     int i;

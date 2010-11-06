@@ -11,7 +11,7 @@ void initialize_clock(){
 /**
  * Handles the Timer Clock Interrupt
  */
-void int_08(){
+void interrupt_08_handler(){
     _CLOCKS++;
 }
 

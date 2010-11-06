@@ -1,24 +1,25 @@
 #include "../include/interrupts.h"
 #include "../include/syscalls.h"
 
-static (void*)() irq_function[16];
+static int irq_function[16];
 
 void init_interrupts(){
+    int i;
     _remap_pic();
 
-    #define _temp_int(X)
+    #define _temp_int(X) _int_hand_%X
     for (i = 0; i < 32; i++){
         setup_IDT_entry (&idt[i], i, (dword)&_temp_int(i), ACS_INT);
     }
-    #define _temp_irq(X) _irq_X
+    #define _temp_irq(X) _irq_%X
     for (i = 32; i < 48; i++){
         setup_IDT_entry (&idt[i], i, (dword)&_temp_irq(i), ACS_INT);
         
         irq_function[i-32] = 0;
     }
 
-    irq_function[8] = interrupt_08_handler;
-    irq_function[9] = interrupt_09_handler;
+    irq_function[8] = (int)interrupt_08_handler;
+    irq_function[9] = (int)interrupt_09_handler;
 
 
     idtr.base = 0;  
@@ -35,11 +36,11 @@ void init_interrupts(){
 
 }
 
-void interrupt_stub_handler(registers_t regs){
+void interrupt_stub_handler(register_t regs){
     return;
 }
 
-void interrupt_80_handler(registers_t regs){
+void interrupt_80_handler(register_t regs){
     switch (regs.eax){
         case WRITE_SYSCALL_ID:
             return write(regs.ebx, regs.ecx, regs.edx);
@@ -60,14 +61,14 @@ void interrupt_80_handler(registers_t regs){
 }
 
 void irq_handler(register_t registers){
-    if (registers->int_no >= 40){
+    if (registers.int_no >= 40){
         asm volatile ("outb %0, %1" : : "a"(0x20), "Nd"(0xA0));
     }
     asm volatile ("outb %0, %1" : : "a"(0x20), "Nd"(0x20));
 
     if (irq_function[registers.int_no] != 0)
     {
-        irq_function[registers.int_no](registers);
+        (void*)()irq_function[registers.int_no](registers);
     }
 }
 

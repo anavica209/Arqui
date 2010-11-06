@@ -47,7 +47,7 @@ GLOBAL _int_hand_%1
 
 ; Syscalls
 ISR_NOERRCODE 80
-CALLER 80 interrupt_80_handler
+CALLER 80, interrupt_80_handler
 
 
 ; CPU exceptions

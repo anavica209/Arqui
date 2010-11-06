@@ -15,6 +15,8 @@ typedef struct registers
 void init_interrupts();
 void _remap_pic();
 
+void interrupt_08_handler(register_t registers);
+void interrupt_09_handler(register_t registers);
 void interrupt_80_handler(register_t registers);
 
 void interrupt_stub_handler(register_t registers);

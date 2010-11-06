@@ -1,4 +1,5 @@
 GLOBAL _remap_pic
+EXTERN irq_handler
 
 %macro IRQ 2
 GLOBAL _irq_%1
@@ -13,30 +14,39 @@ _remap_pic:
     cli
 
     ; Empieza el proceso de inicializacion
-    outb 0x20, 0x11
-    outb 0xA0, 0x11
-    
+    push ax
+    mov al, 0x11
+    out 0x20, al
+    out 0xA0, al    
+
     ; Escribe el offset de cada pic
-    outb 0x21, 0x20
-    outb 0xA1, 0x28
+    mov al, 0x20
+    out 0x21, al
+    mov al, 0x28
+    out 0xA1, al
 
     ; Sigue con la inicialización... (esto es medio magic numbers)
-    outb 0x21, 0x04
-    outb 0xA1, 0x02
+    mov al, 0x04
+    out 0x21, al
+    mov al, 0x02
+    out 0xA1, al
 
     ;  Termina
-    outb 0x21, 0x01
-    outb 0xA1, 0x01
+    mov al, 0x01
+    out 0x21, al
+    out 0xA1, al
 
     ; Dejamos las máscaras desactivadas todas las interrupciones
-    outb 0x21, 0xFF
-    outb 0xA1, 0xFF
+    mov al, 0xFF
+    out 0x21, al
+    out 0xA1, al
+
+    pop ax
     
     sti
     ret
 
 
-EXTERN irq_handler
 
 _irq_common_stub:
    pushad
