@@ -17,7 +17,7 @@ void _remap_pic();
 
 void interrupt_08_handler(register_t registers);
 void interrupt_09_handler(register_t registers);
-void interrupt_80_handler(register_t registers);
+int interrupt_80_handler(register_t registers);
 
 void interrupt_stub_handler(register_t registers);
 void interrupt_stuberror_handler(register_t registers);
@@ -37,6 +37,7 @@ extern void _int_hand_6();
 extern void _int_hand_7();
 extern void _int_hand_8();
 extern void _int_hand_9();
+extern void _int_hand_10();
 extern void _int_hand_11();
 extern void _int_hand_12();
 extern void _int_hand_13();
