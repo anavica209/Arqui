@@ -25,8 +25,8 @@ int keyboard_queue_initialize();
 //
 // Función handler para el read y write al file descriptor
 //
-int keyboard_queue_write(int keycode);
-int keyboard_queue_read();
+int keyboard_queue_write(const void* from, size_t amount);
+int keyboard_queue_read(void *buffer, size_t amount);
 
 //
 // Handling lenguajes y ascii

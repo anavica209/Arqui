@@ -19,7 +19,7 @@ de leer y otra de escribir en el archivo
 * - Cantidad
 *
 **/
-size_t __write(int fd, const void* buffer, size_t count){
+size_t write(int fd, const void* buffer, size_t count){
     return FILES[fd].write(buffer, count);
 }
 
@@ -32,7 +32,7 @@ size_t __write(int fd, const void* buffer, size_t count){
 * - Cantidad
 *
 **/
-size_t __read(int fd, void* buffer, size_t count){
+size_t read(int fd, void* buffer, size_t count){
     return FILES[fd].read(buffer, count);
 }
 
@@ -46,7 +46,7 @@ size_t __read(int fd, void* buffer, size_t count){
 * Devuelve:
 * Un entero, que es el file descriptor asignado al archivo
 **/
-int __open(int (*write_function)(const void*, size_t), int (*read_function)(void*, size_t)){
+int open(int (*write_function)(const void*, size_t), int (*read_function)(void*, size_t)){
     FILES[FILE_COUNT].write = write_function;
     FILES[FILE_COUNT].read = read_function;
     return FILE_COUNT++;

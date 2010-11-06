@@ -1,7 +1,7 @@
-GLOBAL _int_09_hand
+GLOBAL interrupt_09_handler
 EXTERN _keyboard_interpreter
 
-_int_09_hand:
+interrupt_09_handler:
     push    ds
     push    es
     pushad
@@ -25,9 +25,9 @@ _int_09_hand:
     jmp     read
 
   callCfunction:
-    push    ax
+    push    eax
     call    _keyboard_interpreter
-    pop     ax
+    pop     eax
 
     mov     al, 20h
     out     20h, al     ; acknowledge to PIC

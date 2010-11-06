@@ -1,5 +1,5 @@
-#include "../../include/defs.h"
-#include "../../include/keyboard.h"
+#include "../include/defs.h"
+#include "../include/keyboard.h"
 
 static int _LAST_PRESSED = 0;
 static int _TICKED = 0;
@@ -78,42 +78,52 @@ int keyboard_queue_initialize(){
 }
 
 // Función llamda cuando alguien hace un write en KEYBOARD_QUEUE_FD
-int keyboard_queue_write(int keycode){
-    int next = keyboard_queue_end + 1;
-    if (next == KEYBOARD_QUEUE_SIZE){
-        next = 0;
+int keyboard_queue_write(const void* from, size_t amount){
+    int *_from = (int*) from;
+    int i;
+    for (i = 0; i < amount; i++){
+        int keycode = *(_from++);
+        int next = keyboard_queue_end + 1;
+        if (next == KEYBOARD_QUEUE_SIZE){
+            next = 0;
+        }
+        if (next != keyboard_queue_begin){
+            keyboard_queue[keyboard_queue_end] = keycode;
+            keyboard_queue_end = next;
+        } else {
+            // Could not write. Buffer full
+            return i;
+        }
     }
-    if (next != keyboard_queue_begin){
-        keyboard_queue[keyboard_queue_end] = keycode;
-        keyboard_queue_end = next;
-        return 1;
-    } else {
-        // Could not write. Buffer full
-        return -1;
-    }
+    return amount;
 }
 
 // Función llamada cuando alguien hace un read a KEYBOARD_QUEUE_FD
-int keyboard_queue_read(){
-    if (keyboard_queue_begin != keyboard_queue_end){
+int keyboard_queue_read(void *buffer, size_t amount){
+    int *_buffer = (int*) buffer;
+    int i;
+    for(i = 0; i < amount; i++) {
+        if (keyboard_queue_begin != keyboard_queue_end){
 
-        // Me guardo el valor del primer elemento de la cola
-        int retval = keyboard_queue[keyboard_queue_begin];
+            // Me guardo el valor del primer elemento de la cola
+            int retval = keyboard_queue[keyboard_queue_begin];
 
-        // Incremento el valor de donde empieza mi cola
-        keyboard_queue_begin++;
+            // Incremento el valor de donde empieza mi cola
+            keyboard_queue_begin++;
 
-        // "doy la vuelta" si es necesario (me pasé del final del arreglo)
-        if (keyboard_queue_begin == KEYBOARD_QUEUE_SIZE){
-            keyboard_queue_begin = 0;
+            // "doy la vuelta" si es necesario (me pasé del final del arreglo)
+            if (keyboard_queue_begin == KEYBOARD_QUEUE_SIZE){
+                keyboard_queue_begin = 0;
+            }
+
+            *(_buffer++) = retval;
+
+        } else {
+            // No hay nada para leer aquí muchachos...
+            ;
         }
-
-        return retval; 
-
-    } else {
-        // No hay nada para leer aquí muchachos...
-        return -1;
     }
+    return _buffer - (int*)buffer;
 }
 
 /**
@@ -129,7 +139,7 @@ void _keyboard_interpreter(int data)
 {
     // KEYBOARD_QUEUE_FD está declarado en keyboard.h
     // y es un file descriptor para la cola de eventos de teclado
-    write(KEYBOARD_QUEUE_FD, data, 1);
+    write(KEYBOARD_QUEUE_FD, &data, 1);
 
     if (data & 0x80) { // Key make
         _LAST_PRESSED = data;
