@@ -14,7 +14,7 @@ gcc -g -c ../src/video/video.c  -o video.o -fno-builtin
 
 gcc -g -c ../src/interrupts/interrupts.c  -o interrupts.o -fno-builtin
 nasm -g -f aout ../src/interrupts/mapping.asm -o mapping.o
-nasm -g -f aout ../src/interrputs/pic.asm -o pic.o
+nasm -g -f aout ../src/interrupts/pic.asm -o pic.o
 
 nasm -g -f aout ../src/keyboard/keyboard.asm -o keyboardasm.o
 gcc -g -c ../src/keyboard/keyboard.c  -o keyboard.o -fno-builtin
