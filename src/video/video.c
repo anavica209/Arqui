@@ -1,6 +1,6 @@
-#include "../../include/video.h"
-#include "../../include/console.h"
-#include "../../include/defs.h"
+#include "../include/video.h"
+#include "../include/console.h"
+#include "../include/defs.h"
 
 #define NUMBER_OF_CONSOLES 2
 

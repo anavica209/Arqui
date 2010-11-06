@@ -1,5 +1,5 @@
-#include "../include/interrupts.c"
-#include "../include/syscalls.c"
+#include "../include/interrupts.h"
+#include "../include/syscalls.h"
 
 static (void*)() irq_function[16];
 

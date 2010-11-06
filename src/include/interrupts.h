@@ -1,8 +1,8 @@
 #ifndef __interrupts_h__
 #define __interrupts_h__
 
-#include "include/kasm.h"
-#include "include/defs.h"
+#include "kasm.h"
+#include "defs.h"
 
 typedef struct registers
 {
@@ -10,7 +10,7 @@ typedef struct registers
    int edi, esi, ebp, esp, ebx, edx, ecx, eax;
    int int_no, err_code;
    int eip, cs, eflags, useresp, ss;
-} registers_t;
+} register_t;
 
 void init_interrupts();
 void _remap_pic();
@@ -23,7 +23,7 @@ void irq_handler(register_t registers);
 
 DESCR_INT idt[0x100]; // The maximum size of the IDT is 255 entries
 IDTR idtr;
-void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset,
+void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access);
 
 extern void _int_hand_0();
 extern void _int_hand_1();

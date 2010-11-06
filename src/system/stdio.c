@@ -1,6 +1,6 @@
-#include "../../include/stdio.h"
-#include "../../include/console.h"
-#include "../../include/syscalls.h"
+#include "../include/stdio.h"
+#include "../include/console.h"
+#include "../include/syscalls.h"
 
 
 /***********************
