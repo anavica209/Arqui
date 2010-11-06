@@ -17,8 +17,8 @@ GLOBAL _int_hand_%1
     jmp _caller%1
 %endmacro
 
-%macro ISR_CALLER 2
-  _caller_%1:
+%macro CALLER 2
+  _caller%1:
     pushad      ; Mete registros en la cola
 
     mov ax, ds  ; guarda el DS en 16 bits de eax
@@ -34,7 +34,7 @@ GLOBAL _int_hand_%1
 
     pop eax
     mov ds, ax
-    mov ex, ax
+    mov es, ax
     mov fs, ax
     mov gs, ax
 

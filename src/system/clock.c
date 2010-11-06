@@ -1,4 +1,4 @@
-#include "../../include/clock.h"
+#include "../include/clock.h"
 
 /**
  * Initializes the clock
